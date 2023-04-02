@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@0.7.4/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContestHunt</title>
+</head>
+
+<body class="bg-gray-900 text-white dark-mode">
+
+  <header class="text-gray-400 body-font">
+    <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+      <a class="flex title-font font-medium items-center text-purple-500 mb-4 md:mb-0">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round"
+          stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-purple-500 rounded-full"
+          viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
+        <span class="ml-3 text-xl">ContestHunt</span>
+      </a>
+
+      <!-- Add a toggle switch for light/dark mode -->
+      <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+        <input type="checkbox" name="toggle" id="toggle"
+          class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" />
+        <label for="toggle"
+          class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-700 cursor-pointer"></label>
+      </div>
+      <label for="toggle" class="text-sm text-gray-500">Light/Dark</label>
+
+    </div>
+  </header>
+
+
+  <script>
+    // Get the toggle switch element
+    const toggleSwitch = document.querySelector('.toggle-checkbox');
+
+    // Add an event listener to detect when the toggle switch is clicked
+    toggleSwitch.addEventListener('click', () => {
+      // Get the current theme of the website
+      const currentTheme = localStorage.getItem('theme');
+
+      // If the current theme is dark, switch to light
+      if (currentTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+      } else { // Otherwise, switch to dark
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    // Set the initial theme of the website based on user preference
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      toggleSwitch.checked = true;
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      toggleSwitch.checked = false;
+    }
+
+  </script>
+
+</body>
+
+<script>
+  var express=require("express"); 
+  var bodyParser=require("body-parser");
+  const mongoose = require('mongoose'); 
+  mongoose.connect('mongodb://localhost:27017/company',{useNew 
+  UrlParser: true});
+  var app=express()
+  app.use(bodyParser.json()); 
+  app.use(express.static('public')); 
+  app.use(bodyParser.urlencoded({
+  extended: true
+  }));
+  const compSchema = new mongoose.Schema({ 
+  empid: Number,
+  vehicalno: String, 
+  owner: String, 
+  brand: String, 
+  year: Number
+  });
+  const Employee = mongoose.model("Employee",compSchema)
+  app.post('/confirm', function(req,res){ 
+  var empid = req.body.empid;
+  var vehno = req.body.vehno; 
+  var owner = req.body.owner; 
+  var brand = req.body.brand; 
+  var year = req.body.year;
+  Employee.findOneAndUpdate({empid: empid},{vehicalno: 
+  vehno, owner:owner,brand: brand, year: year },function(err){
+  if(err){ 
+  console.log(err);
+  }else{
+  res.send("Updation completed");
+  }
+  })
+  })
+  app.get("/",function(req,res){ 
+  res.sendFile( dirname + "/index.html")
+  })
+  app.listen(3000,function(){ 
+  console.log("server has started on 3000");
+  })
+  </script>
+  </body>
+  </html>
+  
