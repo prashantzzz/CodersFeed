@@ -1,6 +1,6 @@
 # CodersFeed
 CodersFeed is a feed for coders that lists all the coding contests from major coding websites, saving you time and effort of having to visit each website individually.
-
+ 
 # Sign In
 You can sign in to ContestFinder using your email address or through your Google or Facebook account.
 
